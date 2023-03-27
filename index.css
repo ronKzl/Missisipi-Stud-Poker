@@ -1,3 +1,182 @@
+
 p{
-    color: red;
+    color: white;
+    position: relative;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+body {
+    
+    background: radial-gradient(#ccecdc, #5f8a6a 50%);
+    height: 100vh;
+    margin: 0rem;
+    font-family: 'Gill Sans', 'Gill Sans MT';
+    /* border-style: solid;
+    border-color: aqua; */
+  }
+  
+@keyframes rotate {
+    from {
+      rotate: 0deg;
+    }
+    
+    50% {
+      scale: 1 1.5;
+    }
+    
+    to {
+      rotate: 360deg;
+    }
+}
+
+/* div{
+    border-style: solid;
+    border-color: aqua;
+} */
+
+#right{
+    float: right;
+    width: 10%;
+    
+}
+
+#mid{
+    float: left;
+    width: 65%;
+}
+
+#left{
+    float: left;
+    width: 25%;
+
+}
+
+
+
+.leftBot{
+    float: left;
+    width: 25%;
+}
+
+.midBot{
+    float: left;
+    width: 25%;
+}
+
+.rightBot{
+    float: right;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.bottom{
+    display: flex;
+    /* border-style: solid;
+    border-color: aqua; */
+}
+#top{
+    height: 100px;
+}
+
+#game{
+    display: flex;
+    /* border-style: solid;
+    border-color: aqua; */
+}
+
+
+.communityCards{
+    width: 200%;
+    height: 100%;
+     margin-top: 50px; 
+}
+
+.handCards{
+    width: 40%;
+    height: 40%;       
+}
+
+
+.dealCard1{
+    /* margin-top: 50px; */
+      
+       
+}
+
+.dealCard2{
+    /* margin-top: 50px;  */
+    
+    
+          
+}
+
+.buttons{
+   
+   
+
+
+}
+
+#streetImgs{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.Street5{
+    
+    text-align: center;
+    
+}
+
+.card{
+    
+    /* width: 150%;
+    height: 100%; */
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+}
+
+.Street4{
+    text-align: center;
+}
+.Street3{
+    text-align: center;
+}
+
+.caption {
+    display: block;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.betNumber{
+    display: block;
+    font-size: 1.5rem;
+    border-style: solid;
+    border-color: white;
+    border-radius: 10cm;
+    border-width: 1px 1em;
+    color: white;
+}
+
+.front{
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.back{
+    position: absolute;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);  
+}
+
+.flipCard{
+    transform: rotateY(180deg)
 }
