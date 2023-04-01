@@ -11,6 +11,19 @@ let highAceCardOrderMap = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":
 
 let lowAceCardOrderMap = {"A":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "T":10,"J":11, "Q":12, "K":13}
 
+function sortNum(a,b){
+    return a-b;
+}
+
+function getSortedRanks(hand){
+    handnums = [];
+    for(i = 0; i < hand.length; i++){
+        handnums[i] = hand[i][RANK_POS];
+        handnums[i] = lowAceCardOrderMap[handnums[i]]
+    }
+    handnums.sort(sortNum);
+    return handnums;
+}
 
 function check_straight_flush(hand) {
     if(check_flush(hand) && check_straight(hand)){
@@ -30,12 +43,7 @@ function check_flush(hand) {
 }
 
 function check_high_ace_straight(hand) {
-    handnums = [];
-    for(i = 0; i < hand.length; i++){
-        handnums[i] = hand[i][RANK_POS];
-        handnums[i] = highAceCardOrderMap[handnums[i]]
-    }
-    handnums.sort();
+    handnums = getSortedRanks(hand)
     
     for(i = 1; i < handnums.length; i++){
         if(handnums[i-1] +1 != handnums[i]){
@@ -46,13 +54,8 @@ function check_high_ace_straight(hand) {
 }
 
 function check_low_ace_straight(hand) {
-    handnums = [];
-    for(i = 0; i < hand.length; i++){
-        handnums[i] = hand[i][RANK_POS];
-        handnums[i] = lowAceCardOrderMap[handnums[i]]
-    }
-    handnums.sort();
-    
+    handnums = getSortedRanks(hand)
+
     for(i = 1; i < handnums.length; i++){
         if(handnums[i-1] +1 != handnums[i]){
             return false;
@@ -63,6 +66,16 @@ function check_low_ace_straight(hand) {
 
 function check_straight(hand){
     return(check_high_ace_straight(hand) || check_low_ace_straight(hand));
+}
+
+function check_quads(hand){
+    handnums = getSortedRanks(hand)
+    for(i = 0; i < 2; i++){
+        if(handnums[i] == handnums[i+1] && handnums[i] == handnums[i+2] && handnums[i] == handnums[i+3]){
+            return true;
+        }
+    }
+    return false
 }
 
 //Testing Flush function
@@ -90,6 +103,12 @@ console.log(check_straight_flush(hand1))
 console.log(check_straight_flush(hand2))
 console.log(check_straight_flush(hand3))
 
+//Testing Quads function
+hand1 = ["5H", "5D", "5C", "5S", "TH"]
+hand2 = ["5D", "QC", "TH", "8S", "AD"]
+
+console.log(check_quads(hand1))
+console.log(check_quads(hand2))
 
 
 
