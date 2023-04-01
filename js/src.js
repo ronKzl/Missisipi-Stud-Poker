@@ -25,6 +25,16 @@ function getSortedRanks(hand){
     return handnums;
 }
 
+function check_royal_flush(hand){
+    if(check_straight_flush(hand)){
+        handnums = getSortedRanks(hand);
+        if (handnums.includes(13) && handnums.includes(14)){
+            return true;
+        }
+    }
+    return false;
+}
+
 function check_straight_flush(hand) {
     if(check_flush(hand) && check_straight(hand)){
         return true;
@@ -60,7 +70,6 @@ function check_low_ace_straight(hand) {
         handnums[i] = lowAceCardOrderMap[handnums[i]]
     }
     handnums.sort(sortNum);
-    return handnums;
 
     for(i = 1; i < handnums.length; i++){
         if(handnums[i-1] +1 != handnums[i]){
@@ -133,8 +142,10 @@ function check_high_pair(hand){
     return false
 }
 
-hand1 = ["TH", "7D", "6H", "AC", "6S"]
-console.log(check_high_pair(hand1))
+hand1 = ["TH", "QH", "AH", "JD", "KH"]
+console.log(hand1)
+console.log(getSortedRanks(hand1))
+console.log(check_straight_flush(hand1))
 
 
 
