@@ -1,210 +1,262 @@
 [
   {
-    "suit": "hearts",
-    "value": 2
+    "suit": "H",
+    "value": 2,
+    "file": "2_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 3
+    "suit": "H",
+    "value": 3,
+    "file": "3_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 4
+    "suit": "H",
+    "value": 4,
+    "file": "4_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 5
+    "suit": "H",
+    "value": 5,
+    "file": "5_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 6
+    "suit": "H",
+    "value": 6,
+    "file": "6_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 7
+    "suit": "H",
+    "value": 7,
+    "file": "7_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 8
+    "suit": "H",
+    "value": 8,
+    "file": "8_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 9
+    "suit": "H",
+    "value": 9,
+    "file": "9_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": 10
+    "suit": "H",
+    "value": 10,
+    "file": "10_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": "J"
+    "suit": "H",
+    "value": "J",
+    "file": "jack_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": "Q"
+    "suit": "H",
+    "value": "Q",
+    "file": "queen_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": "K"
+    "suit": "H",
+    "value": "K",
+    "file": "king_of_hearts.png"
   },
   {
-    "suit": "hearts",
-    "value": "A"
+    "suit": "H",
+    "value": "A",
+    "file": "ace_of_hearts.png"
   },
   {
-    "suit": "diamonds",
-    "value": 2
+    "suit": "D",
+    "value": 2,
+    "file": "2_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 3
+    "suit": "D",
+    "value": 3,
+    "file": "3_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 4
+    "suit": "D",
+    "value": 4,
+    "file": "4_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 5
+    "suit": "D",
+    "value": 5,
+    "file": "5_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 6
+    "suit": "D",
+    "value": 6,
+    "file": "6_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 7
+    "suit": "D",
+    "value": 7,
+    "file": "7_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 8
+    "suit": "D",
+    "value": 8,
+    "file": "8_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 9
+    "suit": "D",
+    "value": 9,
+    "file": "9_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": 10
+    "suit": "D",
+    "value": 10,
+    "file": "10_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": "J"
+    "suit": "D",
+    "value": "J",
+    "file": "jack_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": "Q"
+    "suit": "D",
+    "value": "Q",
+    "file": "queen_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": "K"
+    "suit": "D",
+    "value": "K",
+    "file": "king_of_diamonds.png"
   },
   {
-    "suit": "diamonds",
-    "value": "A"
+    "suit": "D",
+    "value": "A",
+    "file": "ace_of_diamonds.png"
   },
   {
-    "suit": "clubs",
-    "value": 2
+    "suit": "C",
+    "value": 2,
+    "file": "2_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 3
+    "suit": "C",
+    "value": 3,
+    "file": "3_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 4
+    "suit": "C",
+    "value": 4,
+    "file": "4_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 5
+    "suit": "C",
+    "value": 5,
+    "file": "5_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 6
+    "suit": "C",
+    "value": 6,
+    "file": "6_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 7
+    "suit": "C",
+    "value": 7,
+    "file": "7_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 8
+    "suit": "C",
+    "value": 8,
+    "file": "8_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 9
+    "suit": "C",
+    "value": 9,
+    "file": "9_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": 10
+    "suit": "C",
+    "value": 10,
+    "file": "10_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": "J"
+    "suit": "C",
+    "value": "J",
+    "file": "jack_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": "Q"
+    "suit": "C",
+    "value": "Q",
+    "file": "queen_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": "K"
+    "suit": "C",
+    "value": "K",
+    "file": "king_of_clubs.png"
   },
   {
-    "suit": "clubs",
-    "value": "A"
+    "suit": "C",
+    "value": "A",
+    "file": "ace_of_clubs.png"
   },
   {
-    "suit": "spades",
-    "value": 2
+    "suit": "S",
+    "value": 2,
+    "file": "2_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 3
+    "suit": "S",
+    "value": 3,
+    "file": "3_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 4
+    "suit": "S",
+    "value": 4,
+    "file": "4_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 5
+    "suit": "S",
+    "value": 5,
+    "file": "5_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 6
+    "suit": "S",
+    "value": 6,
+    "file": "6_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 7
+    "suit": "S",
+    "value": 7,
+    "file": "7_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 8
+    "suit": "S",
+    "value": 8,
+    "file": "8_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 9
+    "suit": "S",
+    "value": 9,
+    "file": "9_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": 10
+    "suit": "S",
+    "value": 10,
+    "file": "10_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": "J"
+    "suit": "S",
+    "value": "J",
+    "file": "jack_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": "Q"
+    "suit": "S",
+    "value": "Q",
+    "file": "queen_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": "K"
+    "suit": "S",
+    "value": "K",
+    "file": "king_of_spades.png"
   },
   {
-    "suit": "spades",
-    "value": "A"
+    "suit": "S",
+    "value": "A",
+    "file": "ace_of_spades.png"
   }
 ]
