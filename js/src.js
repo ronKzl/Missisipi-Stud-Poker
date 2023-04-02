@@ -638,6 +638,11 @@ function fold() {
   }
   //set amount of cards visible back to 0
   amountRevealed = 0;
+  //set amount of street bets back to 0
+  thirdBet = 0;
+  fourthBet = 0;
+  fifthBet = 0;
+
   //disable the buttons
   disablePlayButtons();
   //enable the deal button back up again
