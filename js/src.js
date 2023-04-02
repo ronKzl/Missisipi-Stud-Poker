@@ -269,7 +269,7 @@ let sideBet = 0
 let thirdBet = 0;
 let fourthBet = 0;
 let fifthBet = 0;
-
+let hooked = false;
 
 const SUIT_POS = 1;
 const RANK_POS = 0;
@@ -482,7 +482,7 @@ function getPicture(cardPosition){
 
 
 
-//On doucument load evens
+//On doucument load events
 
 //disable Play buttons
 disablePlayButtons();
@@ -553,43 +553,48 @@ function putBet(betAmount){
   flipCard();
 }
 
-
-
+//Draw 5 random cards from the Json & update them on the UI
+function updateCards(){
+  for(let i =0; i < 5; i++){
+    dealCard();
+  }  
+    console.log(currentCards);
+    document.getElementById("firstStImg").src = getPicture(0);
+    document.getElementById("secondStImg").src = getPicture(1);
+    document.getElementById("thirdStImg").src = getPicture(2);
+    document.getElementById("fourthStImg").src = getPicture(3);
+    document.getElementById("fifthStImg").src = getPicture(4);
+}
 
 //Sets up the game
 function dealBtn() {
   
-  //Draw 5 random cards from the Json
-  dealCard();
-  dealCard();
-  dealCard();
-  dealCard();
-  dealCard();
-  console.log(currentCards);
-  document.getElementById("firstStImg").src = getPicture(0);
-  document.getElementById("secondStImg").src = getPicture(1);
-  document.getElementById("thirdStImg").src = getPicture(2);
-  document.getElementById("fourthStImg").src = getPicture(3);
-  document.getElementById("fifthStImg").src = getPicture(4);
   
   //Lock In the Ante & 3 card bet of user
   //get ante and update user balance 
 
   playerMoney -= (ante + sideBet);
   updateUserBalance();
-  
-  //reset to prevent game from getting stuck if user plays multiple rounds in a row
-  if(thirdBet != 0){
+  //prevent user from seeing the street cards after playing their first game
+  if(hooked){
+    document.getElementById("bet3").textContent = `$`;
+    document.getElementById("bet4").textContent = `$`;
+    document.getElementById("bet5").textContent = `$`;
     flipFirstAndSecond();
     flipThirdStreet();
     flipFourthStreet();
     flipFifthStreet();
+    setTimeout(updateCards,300); //set timeout for there to be time to update the cards
     setTimeout(flipFirstAndSecond,650); //set a timeout to make the clean up look more natural
+    //Draw 5 random cards from the Json
+  
   }
   else{ //users first game immideatly reveal the cards
+    //Draw 5 random cards from the Json
+    updateCards();
     flipFirstAndSecond();
   }
-  
+
   //Disable the dealButton
   document.getElementById("deal").disabled = true;
   //Enebale the other 4 buttons
@@ -621,43 +626,23 @@ function flipCard(){
 
 
 //called when the fold button is pressed
-//cleans up the user UI for a new round and adjusts money accordingly
+//reveal the rest of the cards that were hidden and call endRound() to display losses and feedback to user
 function fold() {
   let thirdCardShowing = 3;
   let fourthCardShowing = 4;
   let fifthCardShowing = 5;
-  //always flip the 2 first cards
-  flipFirstAndSecond();
   //then depending on the amount of cards revealed which would be tracked
-  if (amountRevealed >= thirdCardShowing) {
+  if (amountRevealed < thirdCardShowing) {
     flipThirdStreet();
   }
-  if (amountRevealed >= fourthCardShowing) {
+  if (amountRevealed < fourthCardShowing) {
     flipFourthStreet();
   }
-  if (amountRevealed >= fifthCardShowing) {
+  if (amountRevealed < fifthCardShowing) {
     flipFifthStreet();
   }
-  //set amount of cards visible back to 0
-  amountRevealed = 0;
-  //set amount of street bets back to 0
-  thirdBet = 0;
-  fourthBet = 0;
-  fifthBet = 0;
-
-  //disable the buttons
-  disablePlayButtons();
-  //enable the deal button back up again
-  document.getElementById("deal").disabled = false;
-  //clear the money labels
-  document.getElementById("bet3").textContent = `$`;
-  document.getElementById("bet4").textContent = `$`;
-  document.getElementById("bet5").textContent = `$`;
-
-  //enable Ante and third card bet back up again
-
-
-  clearCards();
+  let fold = true;
+  endRound(fold);
 }
 
 function clearCards(){
@@ -669,11 +654,11 @@ function clearCards(){
 //calcs overall player earnings and displays highest achieved hand
 //adjusts player score
 //then cleans up the UI
-function endRound(){
+function endRound(fold = false){
   //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
-  
-  //currentCards = ["QC","QD","8D","5C","6H"];
+  hooked = true;
+  currentCards = ["QC","QD","8D","5C","6H"];
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
@@ -681,8 +666,11 @@ function endRound(){
   getSortedRanks(currentCards);
   let payout = findPayout(currentCards);
   
-  //loss
-  if(payout === -1){
+  //loss already accounted for as the game plays 
+  
+  //if the user folded or lost display the loss menu
+  if(fold){
+    console.log("user folded");
     
   }
   //pair between 6 to 10 just push
