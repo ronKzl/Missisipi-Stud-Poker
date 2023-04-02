@@ -1,7 +1,8 @@
 
 p{
-    color: white;
+    color: yellow;
     position: relative;
+   
 }
 
 h1{
@@ -9,12 +10,14 @@ h1{
     color: white;
 }
 
+
+
 body {
     
     background: radial-gradient(#ccecdc, #5f8a6a 50%);
     height: 100vh;
     margin: 0rem;
-    font-family: 'Gill Sans', 'Gill Sans MT';
+    font-family: 'Gill Sans';
     /* border-style: solid;
     border-color: aqua; */
   }
@@ -52,7 +55,7 @@ body {
 #left{
     float: left;
     width: 25%;
-
+    margin-left: 1%;
 }
 
 
@@ -60,6 +63,7 @@ body {
 .leftBot{
     float: left;
     width: 25%;
+    margin-left: 1%;
 }
 
 .midBot{

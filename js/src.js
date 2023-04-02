@@ -262,7 +262,7 @@ cardData = [
   ]
 
 //game variables to track user earnings and stats
-let playerMoney = 1000;
+let playerMoney = 10000;
 let handsPlayed = 0;
 let ante = 25;
 let sideBet = 0
@@ -479,6 +479,9 @@ function getPicture(cardPosition){
   }
 }
 
+
+
+
 //On doucument load evens
 
 //disable Play buttons
@@ -527,6 +530,8 @@ function increaseBetx3(){
 
 //sets the appropriate bet depending on how many cards are revealed to the amount given
 function putBet(betAmount){
+  playerMoney -= betAmount;
+  updateUserBalance();
   if(amountRevealed === 2){
     thirdBet = betAmount;
     document.getElementById("bet3").textContent = `${betAmount}$`
@@ -551,6 +556,7 @@ function putBet(betAmount){
 
 //Sets up the game
 function dealBtn() {
+  
   //Draw 5 random cards from the Json
   dealCard();
   dealCard();
@@ -565,9 +571,23 @@ function dealBtn() {
   document.getElementById("fifthStImg").src = getPicture(4);
   
   //Lock In the Ante & 3 card bet of user
+  //get ante and update user balance 
 
-  //Flip the first 2 cards
-  flipFirstAndSecond();
+  playerMoney -= (ante + sideBet);
+  updateUserBalance();
+  
+  //reset to prevent game from getting stuck if user plays multiple rounds in a row
+  if(thirdBet != 0){
+    flipFirstAndSecond();
+    flipThirdStreet();
+    flipFourthStreet();
+    flipFifthStreet();
+    setTimeout(flipFirstAndSecond,650); //set a timeout to make the clean up look more natural
+  }
+  else{ //users first game immideatly reveal the cards
+    flipFirstAndSecond();
+  }
+  
   //Disable the dealButton
   document.getElementById("deal").disabled = true;
   //Enebale the other 4 buttons
@@ -591,8 +611,9 @@ function flipCard(){
     if(amountRevealed === 4){
       flipFifthStreet();
       amountRevealed++;
-      return;
+      endRound();
     }
+    
 }
 
 
@@ -628,18 +649,13 @@ function fold() {
 
   //enable Ante and third card bet back up again
 
-  //calc user loss
-  let loss = ante + sideBet + thirdBet + fourthBet + fifthBet;
-  playerMoney = playerMoney - loss;
-  handsPlayed++;
-  if(playerMoney < 0){
-    alert("You went broke - reseting the game")
-    resetUserMoney();
-  }
-  else{
-    updateUserBalance();
-  }
 
+  clearCards();
+}
+
+function clearCards(){
+  currentCards = [];
+  currentCardNum = [];  
 }
 
 //called after the 5th street card is flipped
@@ -647,21 +663,46 @@ function fold() {
 //adjusts player score
 //then cleans up the UI
 function endRound(){
+  //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
-  //find the user payout
+  
+  //currentCards = ["7C","7D","8D","5C","6H"];
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
-  //depending on the payout if its 0 then do nothing user not loose money at all
-  //negative -1 user looses it all
-  //*2 and stuff times each bet user made by that modifier and sum it up and add that to him
+  //find the user payout
+  getSortedRanks(currentCards);
+  let payout = findPayout(currentCards);
+  
+  //loss
+  if(payout === -1){
+    
+  }
+  //pair between 6 to 10 just push
+  else if(payout === 0){
+    playerMoney += (ante + thirdBet + fourthBet + fifthBet);
+    updateUserBalance();
+  }
+  //else player won something multiply each value by the payout and sum togeher
+  else{
+    //add back what he played
+    playerMoney += (ante + thirdBet + fourthBet + fifthBet); //return what player bet
+    //AND add what he won depending on the multiplyer
+    playerMoney += ((ante * payout) + (thirdBet * payout) + (fourthBet * payout) + (fifthBet * payout));
+    updateUserBalance();
+  }
 
-  //COMMUNITY CARDS BET - IN THE WORKS
-
+  //display menu of earnings
 
   //CLEAN UP UI
-  //UPDATE USER MONEY
-  //SHOW A SUMMARY TO USER WHAT THEY WON
+  
+  //set amount of cards visible back to 0
+  amountRevealed = 0;
+  //disable the play buttons
+  disablePlayButtons();
+  //enable the deal button back up again to restart the round
+  document.getElementById("deal").disabled = false;
+  clearCards();
 }
 
 //DONE
@@ -704,6 +745,6 @@ function updateUserBalance(){
 }
 
 function resetUserMoney(){
-  playerMoney = 1000;
+  playerMoney = 10000;
   updateUserBalance();
 }
