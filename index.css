@@ -206,6 +206,7 @@ body {
 .userWin{
     z-index: 99;
     font-size: 1rem;
+    
     position: absolute;
     top: 10%;
     left: 20%;

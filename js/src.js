@@ -512,7 +512,7 @@ document.getElementById("x2").addEventListener("click", increaseBetx2);
 document.getElementById("x3").addEventListener("click", increaseBetx3);
 document.getElementById("reset").addEventListener("click",resetUserMoney);
 //at first hide the earnings div only show it on full round completion
-//document.getElementById("userWin").style.display = "none";
+document.getElementById("userWin").style.display = "none";
 
 //Increase bets functions
 function increaseBetx1(){
@@ -569,10 +569,8 @@ function updateCards(){
 //Sets up the game
 function dealBtn() {
   
-  
   //Lock In the Ante & 3 card bet of user
   //get ante and update user balance 
-
   playerMoney -= (ante + sideBet);
   updateUserBalance();
   //prevent user from seeing the street cards after playing their first game
@@ -658,7 +656,7 @@ function endRound(fold = false){
   //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
   hooked = true;
-  currentCards = ["QC","QD","8D","5C","6H"];
+  //currentCards = ["QC","QD","8D","5C","6H"];
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
