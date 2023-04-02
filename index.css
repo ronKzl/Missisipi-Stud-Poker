@@ -1,95 +1,87 @@
-
-p{
+p {
     color: yellow;
     position: relative;
     font-size: 110%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-h1{
+h1 {
     text-align: center;
     color: white;
     font-size: 3rem;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
 }
 
 
-/* CSS */
 .button {
-  appearance: button;
-  background-color: transparent;
-  background-image: linear-gradient(to bottom, #def785, #ccecdc);
-  border: 0 solid #e5e7eb;
-  border-radius: .5rem;
-  box-sizing: border-box;
-  color: #070401;
-  font-size: 100%;
-  font-weight: 700;
-  outline: 2px solid transparent;
-  padding: 1rem;
-  text-align: center;
-  text-transform: none;
-  transition: all .1s cubic-bezier(.4, 0, .2, 1);
-  touch-action: manipulation;
-  box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15),0px 1px 1px rgba(183, 199, 183, 0.15);
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, #def785, #ccecdc);
+    border: 0 solid #e5e7eb;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #070401;
+    font-size: 100%;
+    font-weight: 700;
+    outline: 2px solid transparent;
+    padding: 1rem;
+    text-align: center;
+    text-transform: none;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    touch-action: manipulation;
+    box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15), 0px 1px 1px rgba(183, 199, 183, 0.15);
 }
 
 .button:active {
-  background-color: #f3f4f6;
-  box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15),0px 1px 1px rgba(183, 199, 183, 0.15);
-  transform: translateY(0.125rem);
+    background-color: #f3f4f6;
+    box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15), 0px 1px 1px rgba(183, 199, 183, 0.15);
+    transform: translateY(0.125rem);
 }
-.button:disabled{
+
+.button:disabled {
     background-image: linear-gradient(to bottom, #f7c2c2, #ececec);
-    box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15),0px 1px 1px rgba(183, 199, 183, 0.15);
+    box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.15), 0px 1px 1px rgba(183, 199, 183, 0.15);
     transform: translateY(0.125rem);
 }
 
 .button:focus {
-  box-shadow: rgba(0, 0, 0, 0.46) 0 0 0 4px, -6px 8px 10px rgba(32, 27, 22, 0.1), 0px 2px 2px rgba(27, 12, 1, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.46) 0 0 0 4px, -6px 8px 10px rgba(32, 27, 22, 0.1), 0px 2px 2px rgba(27, 12, 1, 0.2);
 }
 
 body {
-    
+
     background: radial-gradient(#ccecdc, #5f8a6a 50%);
     height: 100vh;
     margin: 0rem;
     font-family: 'Gill Sans';
-    /* border-style: solid;
-    border-color: aqua; */
-  }
-  
+}
+
 @keyframes rotate {
     from {
-      rotate: 0deg;
+        rotate: 0deg;
     }
-    
+
     50% {
-      scale: 1 1.5;
+        scale: 1 1.5;
     }
-    
+
     to {
-      rotate: 360deg;
+        rotate: 360deg;
     }
 }
 
-/* div{
-    border-style: solid;
-    border-color: aqua;
-} */
 
-#right{
+#right {
     float: right;
     width: 10%;
-    
+
 }
 
-#mid{
+#mid {
     float: left;
     width: 65%;
 }
 
-#left{
+#left {
     float: left;
     width: 25%;
     margin-left: 1%;
@@ -97,86 +89,67 @@ body {
 
 
 
-.leftBot{
+.leftBot {
     float: left;
     width: 25%;
     margin-left: 1%;
 }
 
-.midBot{
+.midBot {
     float: left;
     width: 25%;
 }
 
-.rightBot{
+.rightBot {
     float: right;
     width: 50%;
     display: flex;
     justify-content: space-between;
-    
+
 }
 
-.bottom{
+.bottom {
     display: flex;
     /* border-style: solid;
     border-color: aqua; */
 }
-#top{
+
+#top {
     height: 100px;
 }
 
-#game{
+#game {
     display: flex;
     /* border-style: solid;
     border-color: aqua; */
 }
 
 
-.communityCards{
+.communityCards {
     width: 200%;
     height: 100%;
-     margin-top: 50px; 
+    margin-top: 50px;
 }
 
-.handCards{
+.handCards {
     width: 40%;
-    height: 40%;       
+    height: 40%;
 }
 
 
-.dealCard1{
-    /* margin-top: 50px; */
-      
-       
-}
-
-.dealCard2{
-    /* margin-top: 50px;  */
-    
-    
-          
-}
-
-.buttons{
-   
-   
-
-
-}
-
-#streetImgs{
+#streetImgs {
     display: flex;
     justify-content: space-evenly;
 }
 
-.Street5{
-    
+.Street5 {
+
     text-align: center;
-    
+
 }
 
-.card{
-    
+.card {
+
     /* width: 150%;
     height: 100%; */
     text-align: center;
@@ -184,10 +157,11 @@ body {
     transition: all 0.8s ease;
 }
 
-.Street4{
+.Street4 {
     text-align: center;
 }
-.Street3{
+
+.Street3 {
     text-align: center;
 }
 
@@ -197,7 +171,7 @@ body {
     font-size: 1.5rem;
 }
 
-.betNumber{
+.betNumber {
     display: block;
     font-size: 1.5rem;
     border-style: solid;
@@ -207,25 +181,37 @@ body {
     color: white;
 }
 
-.front{
+.front {
     position: absolute;
     backface-visibility: hidden;
 }
 
-.back{
+.back {
     position: absolute;
     backface-visibility: hidden;
-    transform: rotateY(180deg);  
+    transform: rotateY(180deg);
 }
 
-.flipCard{
+.flipCard {
     transform: rotateY(180deg)
 }
 
 
-.yellow{
+.yellow {
     color: yellow;
     font-size: 105%;
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
-
+.userWin{
+    z-index: 99;
+    font-size: 1rem;
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    margin: -50px 0 0 -50px;
+    border: 1px solid red;
+    background-color: black;
+    height: 15rem;
+    width: 17rem;
+}

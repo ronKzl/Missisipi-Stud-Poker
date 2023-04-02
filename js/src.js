@@ -263,7 +263,7 @@ cardData = [
 
 //game variables to track user earnings and stats
 let playerMoney = 10000;
-let handsPlayed = 0;
+let handsPlayed = 0; //<--- display this?
 let ante = 25;
 let sideBet = 0
 let thirdBet = 0;
@@ -469,10 +469,10 @@ function dealCard(){
 
 
 
-//return the correct picture corresponding to the card in the array from the JSON file
+//return the correct picture corresponding to the card in the array
 function getPicture(cardPosition){
   for(let i = 0; i < 52; i++){
-    if(cardData[i].suit == currentCards[cardPosition][1] && cardData[i].value == currentCards[cardPosition][0]){
+    if(cardData[i].suit == currentCards[cardPosition][SUIT_POS] && cardData[i].value == currentCards[cardPosition][RANK_POS]){
       let card = "./PNG-cards-1.3/" + cardData[i].file;
       return card;
     }
@@ -511,6 +511,8 @@ document.getElementById("x1").addEventListener("click", increaseBetx1);
 document.getElementById("x2").addEventListener("click", increaseBetx2);
 document.getElementById("x3").addEventListener("click", increaseBetx3);
 document.getElementById("reset").addEventListener("click",resetUserMoney);
+//at first hide the earnings div only show it on full round completion
+//document.getElementById("userWin").style.display = "none";
 
 //Increase bets functions
 function increaseBetx1(){
@@ -671,7 +673,7 @@ function endRound(){
   //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
   
-  //currentCards = ["7C","7D","8D","5C","6H"];
+  //currentCards = ["QC","QD","8D","5C","6H"];
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
