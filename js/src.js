@@ -261,16 +261,16 @@ cardData = [
     }
   ]
 
-//some starter vars
-let playerMoney = 1000
-let handsPlayed = 0
-let ante = 25
+//game variables to track user earnings and stats
+let playerMoney = 1000;
+let handsPlayed = 0;
+let ante = 25;
+let sideBet = 0
 let thirdBet = 0;
 let fourthBet = 0;
 let fifthBet = 0;
 
 
-let sideBet = 0
 const SUIT_POS = 1;
 const RANK_POS = 0;
 let currentCards = [];
@@ -466,15 +466,8 @@ function dealCard(){
     currentCardNum.push(x);
 }
 
-dealCard();
-dealCard();
-dealCard();
-dealCard();
-dealCard();
 
-// console.log(currentCards);
-// console.log(getSortedRanks(currentCards));
-// console.log(findPayout(currentCards));
+
 
 //return the correct picture corresponding to the card in the array from the JSON file
 function getPicture(cardPosition){
@@ -490,6 +483,9 @@ function getPicture(cardPosition){
 
 //disable Play buttons
 disablePlayButtons();
+updateUserBalance();
+
+
 
 //Get the 5 cards on load
 const card = document.getElementById("card");
@@ -511,6 +507,7 @@ document.getElementById("fold").addEventListener("click", fold);
 document.getElementById("x1").addEventListener("click", increaseBetx1);
 document.getElementById("x2").addEventListener("click", increaseBetx2);
 document.getElementById("x3").addEventListener("click", increaseBetx3);
+document.getElementById("reset").addEventListener("click",resetUserMoney);
 
 //Increase bets functions
 function increaseBetx1(){
@@ -600,7 +597,8 @@ function flipCard(){
 
 
 
-//Fold -> flip back only the up-right flipped cards
+//called when the fold button is pressed
+//cleans up the user UI for a new round and adjusts money accordingly
 function fold() {
   let thirdCardShowing = 3;
   let fourthCardShowing = 4;
@@ -629,9 +627,42 @@ function fold() {
   document.getElementById("bet5").textContent = `$`;
 
   //enable Ante and third card bet back up again
+
+  //calc user loss
+  let loss = ante + sideBet + thirdBet + fourthBet + fifthBet;
+  playerMoney = playerMoney - loss;
+  handsPlayed++;
+  if(playerMoney < 0){
+    alert("You went broke - reseting the game")
+    resetUserMoney();
+  }
+  else{
+    updateUserBalance();
+  }
+
 }
 
+//called after the 5th street card is flipped
+//calcs overall player earnings and displays highest achieved hand
+//adjusts player score
+//then cleans up the UI
+function endRound(){
+  //REMOVE CONSOLE LOG
+  //find the user payout
+  console.log(currentCards);
+  console.log(getSortedRanks(currentCards));
+  console.log(findPayout(currentCards));
+  //depending on the payout if its 0 then do nothing user not loose money at all
+  //negative -1 user looses it all
+  //*2 and stuff times each bet user made by that modifier and sum it up and add that to him
 
+  //COMMUNITY CARDS BET - IN THE WORKS
+
+
+  //CLEAN UP UI
+  //UPDATE USER MONEY
+  //SHOW A SUMMARY TO USER WHAT THEY WON
+}
 
 //DONE
 
@@ -668,3 +699,11 @@ function flipFirstAndSecond() {
   card2.classList.toggle("flipCard");
 }
 
+function updateUserBalance(){
+  document.getElementById("userMoney").innerText = `Your Money: ${playerMoney}$`;
+}
+
+function resetUserMoney(){
+  playerMoney = 1000;
+  updateUserBalance();
+}
