@@ -265,6 +265,11 @@ cardData = [
 let playerMoney = 1000
 let handsPlayed = 0
 let ante = 25
+let thirdBet = 0;
+let fourthBet = 0;
+let fifthBet = 0;
+
+
 let sideBet = 0
 const SUIT_POS = 1;
 const RANK_POS = 0;
@@ -471,17 +476,17 @@ dealCard();
 // console.log(getSortedRanks(currentCards));
 // console.log(findPayout(currentCards));
 
-
+//return the correct picture corresponding to the card in the array from the JSON file
 function getPicture(cardPosition){
   for(let i = 0; i < 52; i++){
     if(cardData[i].suit == currentCards[cardPosition][1] && cardData[i].value == currentCards[cardPosition][0]){
-      let g = "./PNG-cards-1.3/" + cardData[i].file;
-      return g;
+      let card = "./PNG-cards-1.3/" + cardData[i].file;
+      return card;
     }
   }
 }
 
-//On doucument load 
+//On doucument load evens
 
 //disable Play buttons
 disablePlayButtons();
@@ -500,15 +505,49 @@ document.getElementById("thirdStImg").src ="PNG-cards-1.3\\2_of_diamonds.png";
 document.getElementById("b").style.color = "#5f8a6a";
 document.getElementById("a").style.color = "#5f8a6a";
 
-//TEMP LISTENERS to test flip
-card5.addEventListener("click", flipFifthStreet);
-card4.addEventListener("click", flipFourthStreet);
-card3.addEventListener("click", flipThirdStreet);
-
 //set up event listeners for the buttons
 document.getElementById("deal").addEventListener("click", dealBtn);
 document.getElementById("fold").addEventListener("click", fold);
+document.getElementById("x1").addEventListener("click", increaseBetx1);
+document.getElementById("x2").addEventListener("click", increaseBetx2);
+document.getElementById("x3").addEventListener("click", increaseBetx3);
 
+//Increase bets functions
+function increaseBetx1(){
+  let moneyBet = ante * 1;
+  putBet(moneyBet);
+}
+
+function increaseBetx2(){
+  let moneyBet = ante * 2;
+  putBet(moneyBet);
+}
+
+function increaseBetx3(){
+  let moneyBet = ante * 3;
+  putBet(moneyBet);
+}
+
+//sets the appropriate bet depending on how many cards are revealed to the amount given
+function putBet(betAmount){
+  if(amountRevealed === 2){
+    thirdBet = betAmount;
+    document.getElementById("bet3").textContent = `${betAmount}$`
+  }
+  if(amountRevealed === 3){
+    fourthBet = betAmount;
+    document.getElementById("bet4").textContent = `${betAmount}$`
+  }
+  if(amountRevealed === 4){
+    fifthBet = betAmount;
+    document.getElementById("bet5").textContent = `${betAmount}$`
+  }
+  //displayCards
+  console.log(thirdBet)
+  console.log(fourthBet)
+  console.log(fifthBet)
+  flipCard();
+}
 
 
 
@@ -540,6 +579,27 @@ function dealBtn() {
 }
 
 
+//flip 1 card a time depending on the amount of cards revealed on the table
+function flipCard(){
+    if(amountRevealed === 2){
+      flipThirdStreet();
+      amountRevealed++;
+      return;
+    }
+    if(amountRevealed === 3){
+      flipFourthStreet();
+      amountRevealed++;
+      return;
+    }
+    if(amountRevealed === 4){
+      flipFifthStreet();
+      amountRevealed++;
+      return;
+    }
+}
+
+
+
 //Fold -> flip back only the up-right flipped cards
 function fold() {
   let thirdCardShowing = 3;
@@ -563,6 +623,10 @@ function fold() {
   disablePlayButtons();
   //enable the deal button back up again
   document.getElementById("deal").disabled = false;
+  //clear the money labels
+  document.getElementById("bet3").textContent = `$`;
+  document.getElementById("bet4").textContent = `$`;
+  document.getElementById("bet5").textContent = `$`;
 
   //enable Ante and third card bet back up again
 }
