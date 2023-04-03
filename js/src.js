@@ -512,7 +512,7 @@ document.getElementById("x2").addEventListener("click", increaseBetx2);
 document.getElementById("x3").addEventListener("click", increaseBetx3);
 document.getElementById("reset").addEventListener("click",resetUserMoney);
 //at first hide the earnings div only show it on full round completion
-document.getElementById("userWin").style.display = "none";
+//document.getElementById("userWin").style.display = "none";
 
 //Increase bets functions
 function increaseBetx1(){
@@ -664,12 +664,36 @@ function endRound(fold = false){
   getSortedRanks(currentCards);
   let payout = findPayout(currentCards);
   
-  //loss already accounted for as the game plays 
   
+ let anteDisplay = document.getElementById("anteEarning");
+ let thirdStDisplay = document.getElementById("thirdStEarning");
+ let fourthStDisplay = document.getElementById("fourthStEarning");
+ let fifthStDisplay = document.getElementById("fifthStEarning");
+ let bonusDisplay =  document.getElementById("communityBonus");
+ let totalEarning = document.getElementById("totalWin");
   //if the user folded or lost display the loss menu
   if(fold){
     console.log("user folded");
-    
+    if(payout === -1){
+      document.getElementById("summary").textContent = "Good Fold";
+    }else{
+      document.getElementById("summary").textContent = "You Folded";
+    }
+    //set the display values accordingly
+    anteDisplay.textContent = ` $-${ante}`;
+    if(thirdBet > 0){
+        thirdStDisplay.textContent = ` $-${thirdBet}`;
+    }else{
+        thirdStDisplay.textContent = " $0";
+    }
+    if(fourthBet > 0){
+      fourthStDisplay.textContent =` $-${fourthBet}`;
+    }else{
+      fourthStDisplay.textContent = " $0";
+    }
+    fifthStDisplay.textContent = " $0";
+    //Calculate the third card bonus and set it regardless if player folds should still get money add it to total earning as well
+    totalEarning.textContent = ` $-${ante + thirdBet + fourthBet}`;
   }
   //pair between 6 to 10 just push
   else if(payout === 0){
@@ -691,11 +715,17 @@ function endRound(fold = false){
   
   //set amount of cards visible back to 0
   amountRevealed = 0;
+  thirdBet = 0;
+  fourthBet = 0;
+  fifthBet = 0;
   //disable the play buttons
   disablePlayButtons();
+
   //enable the deal button back up again to restart the round
   document.getElementById("deal").disabled = false;
   clearCards();
+  
+
 }
 
 //DONE
