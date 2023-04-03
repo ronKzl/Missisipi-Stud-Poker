@@ -512,7 +512,7 @@ document.getElementById("x2").addEventListener("click", increaseBetx2);
 document.getElementById("x3").addEventListener("click", increaseBetx3);
 document.getElementById("reset").addEventListener("click",resetUserMoney);
 //at first hide the earnings div only show it on full round completion
-//document.getElementById("userWin").style.display = "none";
+document.getElementById("userWin").style.display = "none";
 
 //Increase bets functions
 function increaseBetx1(){
@@ -536,15 +536,15 @@ function putBet(betAmount){
   updateUserBalance();
   if(amountRevealed === 2){
     thirdBet = betAmount;
-    document.getElementById("bet3").textContent = `${betAmount}$`
+    document.getElementById("bet3").textContent = `$${betAmount}`
   }
   if(amountRevealed === 3){
     fourthBet = betAmount;
-    document.getElementById("bet4").textContent = `${betAmount}$`
+    document.getElementById("bet4").textContent = `$${betAmount}`
   }
   if(amountRevealed === 4){
     fifthBet = betAmount;
-    document.getElementById("bet5").textContent = `${betAmount}$`
+    document.getElementById("bet5").textContent = `$${betAmount}`
   }
   //displayCards
   console.log(thirdBet)
@@ -578,6 +578,7 @@ function dealBtn() {
     document.getElementById("bet3").textContent = `$`;
     document.getElementById("bet4").textContent = `$`;
     document.getElementById("bet5").textContent = `$`;
+    document.getElementById("userWin").style.display = "none";
     flipFirstAndSecond();
     flipThirdStreet();
     flipFourthStreet();
@@ -656,7 +657,7 @@ function endRound(fold = false){
   //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
   hooked = true;
-  //currentCards = ["QC","QD","8D","5C","6H"];
+  //currentCards = ["8C","5D","8D","6C","QH"];
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
@@ -673,7 +674,6 @@ function endRound(fold = false){
  let totalEarning = document.getElementById("totalWin");
   //if the user folded or lost display the loss menu
   if(fold){
-    console.log("user folded");
     if(payout === -1){
       document.getElementById("summary").textContent = "Good Fold";
     }else{
@@ -695,23 +695,44 @@ function endRound(fold = false){
     //Calculate the third card bonus and set it regardless if player folds should still get money add it to total earning as well
     totalEarning.textContent = ` $-${ante + thirdBet + fourthBet}`;
   }
+  else if(payout === -1){
+    document.getElementById("summary").textContent = "You Lose";
+    anteDisplay.textContent = `-$${ante }`;
+    thirdStDisplay.textContent = `-$${thirdBet}`;
+    fourthStDisplay.textContent =`-$${fourthBet}`;
+    fifthStDisplay.textContent = `-$${fifthBet}`;
+    totalEarning.textContent = `-  $${ante+thirdBet+fourthBet+fifthBet}`;
+  }
   //pair between 6 to 10 just push
   else if(payout === 0){
     playerMoney += (ante + thirdBet + fourthBet + fifthBet);
     updateUserBalance();
+    document.getElementById("summary").textContent = "Push!";
+    anteDisplay.textContent = ` $0`;
+    thirdStDisplay.textContent = ` $0`;
+    fourthStDisplay.textContent =` $0`;
+    fifthStDisplay.textContent = ` $0`;
+    totalEarning.textContent = ` $0`;
   }
   //else player won something multiply each value by the payout and sum togeher
   else{
     //add back what he played
     playerMoney += (ante + thirdBet + fourthBet + fifthBet); //return what player bet
     //AND add what he won depending on the multiplyer
-    playerMoney += ((ante * payout) + (thirdBet * payout) + (fourthBet * payout) + (fifthBet * payout));
+    let winAmount = ((ante * payout) + (thirdBet * payout) + (fourthBet * payout) + (fifthBet * payout));
+    playerMoney += winAmount;
     updateUserBalance();
+    document.getElementById("summary").textContent = "Winner!";
+    anteDisplay.textContent = ` $${ante * payout}`;
+    thirdStDisplay.textContent = ` $${thirdBet * payout}`;
+    fourthStDisplay.textContent =` $${fourthBet * payout}`;
+    fifthStDisplay.textContent = ` $${fifthBet * payout}`;
+    totalEarning.textContent = `+  $${winAmount}`;
   }
 
   //display menu of earnings
+  document.getElementById("userWin").style.display = "block";
 
-  //CLEAN UP UI
   
   //set amount of cards visible back to 0
   amountRevealed = 0;
@@ -720,7 +741,6 @@ function endRound(fold = false){
   fifthBet = 0;
   //disable the play buttons
   disablePlayButtons();
-
   //enable the deal button back up again to restart the round
   document.getElementById("deal").disabled = false;
   clearCards();

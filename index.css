@@ -211,8 +211,27 @@ body {
     top: 10%;
     left: 20%;
     margin: -50px 0 0 -50px;
-    border: 1px solid red;
-    background-color: black;
+    background-color: rgba(0,0,0,.5);;
+    
     height: 15rem;
     width: 17rem;
+    text-align: center;
+}
+input{
+    text-align: center;
+    width: 25%;
+    padding: 3px 5px;
+    display: block;
+    font-size: 100%;
+}
+form{
+    margin-right: 1rem;
+}
+
+label {
+    color: yellow;
+    font-size: 110%;
+    text-shadow: 0px 2px #070401;
+    margin-bottom: 5px;
+    display: block;
 }
