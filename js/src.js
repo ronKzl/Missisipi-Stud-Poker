@@ -261,6 +261,11 @@ cardData = [
     }
   ]
 
+/*
+        NOTE: CARD EFFECTS ONLY FUNCTION PROPERLY IN CHROME BROWSER
+        due to firefox and safari treating divs differently and not allowing overlay.
+*/
+
 //game variables to track user earnings and stats
 let playerMoney = 10000;
 let handsPlayed = 0; //<--- display this?
@@ -513,6 +518,9 @@ document.getElementById("x3").addEventListener("click", increaseBetx3);
 document.getElementById("reset").addEventListener("click",resetUserMoney);
 //at first hide the earnings div only show it on full round completion
 document.getElementById("userWin").style.display = "none";
+//set values to deafult for now
+document.getElementById("anteBet").value = ante;
+document.getElementById("bonusBet").value = sideBet;
 
 //Increase bets functions
 function increaseBetx1(){
@@ -570,6 +578,20 @@ function updateCards(){
 function dealBtn() {
   
   //Lock In the Ante & 3 card bet of user
+  let userAnte = document.getElementById("anteBet").value;
+  if(userAnte < 1){
+    alert("Ante must be at least $1");
+    return;
+  }
+  let userBonusBet = document.getElementById("bonusBet").value;
+  if(userBonusBet < 0){
+    alert("Bonus bet can not be negative");
+    return;
+  }
+  ante = +userAnte;
+  sideBet = +userBonusBet;
+  //disable bets
+  disableBets();
   //get ante and update user balance 
   playerMoney -= (ante + sideBet);
   updateUserBalance();
@@ -693,7 +715,8 @@ function endRound(fold = false){
     }
     fifthStDisplay.textContent = " $0";
     //Calculate the third card bonus and set it regardless if player folds should still get money add it to total earning as well
-    totalEarning.textContent = ` $-${ante + thirdBet + fourthBet}`;
+    let lossAmount = +ante + +thirdBet + +fourthBet;
+    totalEarning.textContent = ` $-${lossAmount}`;
   }
   else if(payout === -1){
     document.getElementById("summary").textContent = "You Lose";
@@ -701,11 +724,12 @@ function endRound(fold = false){
     thirdStDisplay.textContent = `-$${thirdBet}`;
     fourthStDisplay.textContent =`-$${fourthBet}`;
     fifthStDisplay.textContent = `-$${fifthBet}`;
-    totalEarning.textContent = `-  $${ante+thirdBet+fourthBet+fifthBet}`;
+    let lossAmount = +ante + +thirdBet + +fourthBet + +fifthBet;
+    totalEarning.textContent = `-  $${lossAmount}`;
   }
   //pair between 6 to 10 just push
   else if(payout === 0){
-    playerMoney += (ante + thirdBet + fourthBet + fifthBet);
+    playerMoney = playerMoney + (ante + thirdBet + fourthBet + fifthBet);
     updateUserBalance();
     document.getElementById("summary").textContent = "Push!";
     anteDisplay.textContent = ` $0`;
@@ -717,10 +741,10 @@ function endRound(fold = false){
   //else player won something multiply each value by the payout and sum togeher
   else{
     //add back what he played
-    playerMoney += (ante + thirdBet + fourthBet + fifthBet); //return what player bet
+    playerMoney = playerMoney + (ante + thirdBet + fourthBet + fifthBet); //return what player bet
     //AND add what he won depending on the multiplyer
     let winAmount = ((ante * payout) + (thirdBet * payout) + (fourthBet * payout) + (fifthBet * payout));
-    playerMoney += winAmount;
+    playerMoney = playerMoney + winAmount;
     updateUserBalance();
     document.getElementById("summary").textContent = "Winner!";
     anteDisplay.textContent = ` $${ante * payout}`;
@@ -744,7 +768,7 @@ function endRound(fold = false){
   //enable the deal button back up again to restart the round
   document.getElementById("deal").disabled = false;
   clearCards();
-  
+  enableBets();
 
 }
 
@@ -790,4 +814,14 @@ function updateUserBalance(){
 function resetUserMoney(){
   playerMoney = 10000;
   updateUserBalance();
+}
+
+function enableBets(){
+  document.getElementById("anteBet").disabled = false;
+  document.getElementById("bonusBet").disabled = false;
+}
+
+function disableBets(){
+  document.getElementById("anteBet").disabled = true;
+  document.getElementById("bonusBet").disabled = true;
 }
