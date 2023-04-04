@@ -382,7 +382,7 @@ function check_full_house(hand){
 
 function check_trips(hand){
     handnums = getSortedRanks(hand);
-    for(i = 0; i < 3; i++){
+    for(i = 0; i < hand.length-2; i++){
         if(handnums[i] == handnums[i+1] && handnums[i] == handnums[i+2]){
             return true;
         }
@@ -426,6 +426,16 @@ function check_mid_pair(hand){
     return false
 }
 
+function check_pair(hand){
+  handnums = getSortedRanks(hand);
+    for(i = 0; i < hand.length-1; i++){
+        if(handnums[i] == handnums[i+1] && handnums[i] < 11 && handnums[i] > 5){
+            return true;
+        }
+    }
+    return false
+}
+
 function findPayout(hand){
     if(check_royal_flush(hand)){
         return 500;
@@ -458,6 +468,27 @@ function findPayout(hand){
         return 0;
     }
     return -1;
+}
+
+function check3card(hand){
+  if(check_royal_flush(hand)){
+    return 50;
+  }
+  if(check_straight_flush(hand)){
+    return 40;
+  }
+  if(check_trips(hand)){
+    return 30;
+  }
+  if(check_straight(hand)){
+    return 6;
+  }
+  if(check_flush(hand)){
+    return 4;
+  }
+  if(check_pair(hand)){
+    return 1;
+  }
 }
 
 function dealCard(){
