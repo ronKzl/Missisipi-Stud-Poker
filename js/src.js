@@ -270,7 +270,7 @@ cardData = [
 let playerMoney = 10000;
 let handsPlayed = 0; //<--- display this?
 let ante = 25;
-let sideBet = 0
+let sideBet = 1;
 let thirdBet = 0;
 let fourthBet = 0;
 let fifthBet = 0;
@@ -429,7 +429,7 @@ function check_mid_pair(hand){
 function check_pair(hand){
   handnums = getSortedRanks(hand);
     for(i = 0; i < hand.length-1; i++){
-        if(handnums[i] == handnums[i+1] && handnums[i] < 11 && handnums[i] > 5){
+        if(handnums[i] == handnums[i+1] && handnums[i] < 15 && handnums[i] > 1){
             return true;
         }
     }
@@ -489,7 +489,9 @@ function check3card(hand){
   if(check_pair(hand)){
     return 1;
   }
+  return 0;
 }
+
 
 function dealCard(){
     while(true){
@@ -710,14 +712,14 @@ function endRound(fold = false){
   //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
   hooked = true;
-  //currentCards = ["8C","5D","8D","6C","QH"];
+  //currentCards = ["3C","2H","4D","7D","KH"]; 
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
   //find the user payout
-  getSortedRanks(currentCards);
   let payout = findPayout(currentCards);
-  
+                                        //only check the community cards
+  let thirdCardBonusPayout = check3card(currentCards.slice(2,6));
   
  let anteDisplay = document.getElementById("anteEarning");
  let thirdStDisplay = document.getElementById("thirdStEarning");
@@ -733,23 +735,38 @@ function endRound(fold = false){
       document.getElementById("summary").textContent = "You Folded";
     }
     //set the display values accordingly
-    anteDisplay.textContent = ` $-${ante}`;
+    anteDisplay.textContent = ` -$${ante}`;
     if(thirdBet > 0){
-        thirdStDisplay.textContent = ` $-${thirdBet}`;
+        thirdStDisplay.textContent = ` -$${thirdBet}`;
     }else{
         thirdStDisplay.textContent = " $0";
     }
     if(fourthBet > 0){
-      fourthStDisplay.textContent =` $-${fourthBet}`;
+      fourthStDisplay.textContent =` -$${fourthBet}`;
     }else{
       fourthStDisplay.textContent = " $0";
     }
     fifthStDisplay.textContent = " $0";
+    bonusDisplay.textContent = ` $${thirdCardBonusPayout*sideBet}`;
     //Calculate the third card bonus and set it regardless if player folds should still get money add it to total earning as well
     let lossAmount = +ante + +thirdBet + +fourthBet;
-    totalEarning.textContent = ` $-${lossAmount}`;
+    if(sideBet > 0){
+      lossAmount = (thirdCardBonusPayout * sideBet) - lossAmount;
+    }
+    if(lossAmount < 0 || sideBet == 0){ //user lost the 3-card bet as well
+      totalEarning.textContent = `-  $${Math.abs(lossAmount)}`;
+      if(sideBet > 0 && thirdCardBonusPayout > 0){
+        playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet;
+        updateUserBalance();
+      }
+    }//user actually was able to gain more then his loss on the 3-card best so net positive
+    else{
+      totalEarning.textContent = `+  $${lossAmount}`;
+      playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet; //payout + return the sidebet
+      updateUserBalance();
+    }
   }
-  else if(payout === -1){
+  else if(payout === -1){ 
     document.getElementById("summary").textContent = "You Lose";
     anteDisplay.textContent = `-$${ante }`;
     thirdStDisplay.textContent = `-$${thirdBet}`;
@@ -757,6 +774,31 @@ function endRound(fold = false){
     fifthStDisplay.textContent = `-$${fifthBet}`;
     let lossAmount = +ante + +thirdBet + +fourthBet + +fifthBet;
     totalEarning.textContent = `-  $${lossAmount}`;
+    bonusDisplay.textContent = ` $0`;
+    //if 3-card bonus bet was placed
+    if(thirdCardBonusPayout == 0 && sideBet > 0){ //bet on side as well and lost
+      bonusDisplay.textContent = ` -$${sideBet}`;
+      totalEarning.textContent = `-  $${lossAmount + sideBet}`;
+    }
+    //bet on 3-card bonus side and won
+    if(thirdCardBonusPayout > 0 && sideBet > 0){
+      bonusDisplay.textContent = ` +$${sideBet*thirdCardBonusPayout}`;
+      playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet; //return 3-card bonus and pay it back to user
+      //is this bonus a win or still a loss?
+      let amount = lossAmount - (sideBet*thirdCardBonusPayout);
+      updateUserBalance();
+      //still a loss but losing less
+      if(amount > 0){
+        totalEarning.textContent = `-  $${amount}`;
+      }
+      else if(amount < 0) {//3-card bonus is actualy overpowered loss of user
+        totalEarning.textContent = `+  $${Math.abs(amount)}`;
+      }
+      else{//nothing it just 0 and got user back to status quo
+        totalEarning.textContent = `  $0`;
+      }
+    }
+
   }
   //pair between 6 to 10 just push
   else if(payout === 0){
@@ -767,7 +809,15 @@ function endRound(fold = false){
     thirdStDisplay.textContent = ` $0`;
     fourthStDisplay.textContent =` $0`;
     fifthStDisplay.textContent = ` $0`;
+    bonusDisplay.textContent = ` $0`;
     totalEarning.textContent = ` $0`;
+    let winAmount = (sideBet * thirdCardBonusPayout);
+    if(sideBet > 0 && winAmount > 0){
+      bonusDisplay.textContent = ` $${winAmount}`;
+      totalEarning.textContent = `+  $${winAmount}`;
+      playerMoney = playerMoney + winAmount + sideBet;
+      updateUserBalance();
+    }
   }
   //else player won something multiply each value by the payout and sum togeher
   else{
@@ -782,13 +832,19 @@ function endRound(fold = false){
     thirdStDisplay.textContent = ` $${thirdBet * payout}`;
     fourthStDisplay.textContent =` $${fourthBet * payout}`;
     fifthStDisplay.textContent = ` $${fifthBet * payout}`;
+    bonusDisplay.textContent = ` $0`;
     totalEarning.textContent = `+  $${winAmount}`;
+    let winSideAmount = (sideBet * thirdCardBonusPayout);
+    if(sideBet > 0 && winSideAmount > 0){
+      bonusDisplay.textContent = ` $${winSideAmount}`;
+      playerMoney = playerMoney + winSideAmount + sideBet;
+      updateUserBalance();
+    }
   }
 
   //display menu of earnings
   document.getElementById("userWin").style.display = "block";
 
-  
   //set amount of cards visible back to 0
   amountRevealed = 0;
   thirdBet = 0;
