@@ -709,10 +709,9 @@ function clearCards(){
 //adjusts player score
 //then cleans up the UI
 function endRound(fold = false){
-  //TODO: Need a function to resolve the third side bet and implement it into this whole senanigans
   //REMOVE CONSOLE LOG
   hooked = true;
-  //currentCards = ["3C","2H","4D","7D","KH"]; 
+  currentCards = ["QC","2H","4D","QD","TH"]; 
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
@@ -747,23 +746,31 @@ function endRound(fold = false){
       fourthStDisplay.textContent = " $0";
     }
     fifthStDisplay.textContent = " $0";
-    bonusDisplay.textContent = ` $${thirdCardBonusPayout*sideBet}`;
+    bonusDisplay.textContent = ` $0`;
+
     //Calculate the third card bonus and set it regardless if player folds should still get money add it to total earning as well
     let lossAmount = +ante + +thirdBet + +fourthBet;
-    if(sideBet > 0){
-      lossAmount = (thirdCardBonusPayout * sideBet) - lossAmount;
+    //player placed it but no gain
+    if(sideBet > 0 && thirdCardBonusPayout == 0){
+      bonusDisplay.textContent = ` -$${sideBet}`;
+      totalEarning.textContent = `-  $${lossAmount + sideBet}`;
     }
-    if(lossAmount < 0 || sideBet == 0){ //user lost the 3-card bet as well
-      totalEarning.textContent = `-  $${Math.abs(lossAmount)}`;
-      if(sideBet > 0 && thirdCardBonusPayout > 0){
-        playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet;
-        updateUserBalance();
-      }
-    }//user actually was able to gain more then his loss on the 3-card best so net positive
-    else{
-      totalEarning.textContent = `+  $${lossAmount}`;
-      playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet; //payout + return the sidebet
+    if(thirdCardBonusPayout > 0 && sideBet > 0){ //placed and there is gaib
+      bonusDisplay.textContent = ` +$${sideBet*thirdCardBonusPayout}`;
+      playerMoney = playerMoney + (thirdCardBonusPayout * sideBet) + sideBet; //return 3-card bonus and pay it back to user
+      //is this bonus a win or still a loss?
+      let amount = lossAmount - (sideBet*thirdCardBonusPayout);
       updateUserBalance();
+      //still a loss but losing less
+      if(amount > 0){
+        totalEarning.textContent = `-  $${amount}`;
+      }
+      else if(amount < 0) {//3-card bonus is actualy overpowered the loss of the user
+        totalEarning.textContent = `+  $${Math.abs(amount)}`;
+      }
+      else{//nothing it just 0 and got user back to status quo
+        totalEarning.textContent = `  $0`;
+      }
     }
   }
   else if(payout === -1){ 
@@ -811,8 +818,13 @@ function endRound(fold = false){
     fifthStDisplay.textContent = ` $0`;
     bonusDisplay.textContent = ` $0`;
     totalEarning.textContent = ` $0`;
-    let winAmount = (sideBet * thirdCardBonusPayout);
-    if(sideBet > 0 && winAmount > 0){
+    
+    if(sideBet > 0 && thirdCardBonusPayout == 0){ //placed but lost so only looses the side bet
+      bonusDisplay.textContent = ` -$${sideBet}`;
+      totalEarning.textContent = `-  $${sideBet}`;
+    }
+    if(sideBet > 0 && thirdCardBonusPayout > 0){ //placed and won gaings the side bet and payout
+      let winAmount = (sideBet * thirdCardBonusPayout);
       bonusDisplay.textContent = ` $${winAmount}`;
       totalEarning.textContent = `+  $${winAmount}`;
       playerMoney = playerMoney + winAmount + sideBet;
@@ -834,9 +846,26 @@ function endRound(fold = false){
     fifthStDisplay.textContent = ` $${fifthBet * payout}`;
     bonusDisplay.textContent = ` $0`;
     totalEarning.textContent = `+  $${winAmount}`;
-    let winSideAmount = (sideBet * thirdCardBonusPayout);
-    if(sideBet > 0 && winSideAmount > 0){
+    if(sideBet > 0 && thirdCardBonusPayout == 0){ //placed but lost side bet so its just not returned
+      bonusDisplay.textContent = ` -$${sideBet}`;
+      //see if the bet overpowers the  natural winning amount
+      let amount = winAmount - sideBet;
+      updateUserBalance();
+      //still the win is still big
+      if(amount > 0){
+        totalEarning.textContent = `+  $${amount}`;
+      }
+      else if(amount < 0) {//3-card bonus bet by user was actually was more then the won amount
+        totalEarning.textContent = `-  $${Math.abs(amount)}`;
+      }
+      else{//nothing it just 0 and got user back to status quo
+        totalEarning.textContent = `  $0`;
+      }
+    }
+    if(sideBet > 0 && thirdCardBonusPayout > 0){ //placed and won bet just add it to the gains
+      let winSideAmount = (sideBet * thirdCardBonusPayout);
       bonusDisplay.textContent = ` $${winSideAmount}`;
+      totalEarning.textContent = `+  $${winSideAmount}`;
       playerMoney = playerMoney + winSideAmount + sideBet;
       updateUserBalance();
     }
