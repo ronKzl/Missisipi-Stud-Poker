@@ -711,7 +711,6 @@ function clearCards(){
 function endRound(fold = false){
   //REMOVE CONSOLE LOG
   hooked = true;
-  currentCards = ["QC","2H","4D","QD","TH"]; 
   console.log(currentCards);
   console.log(getSortedRanks(currentCards));
   console.log(findPayout(currentCards));
