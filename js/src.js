@@ -290,18 +290,21 @@ let lowAceCardOrderMap = {"A":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8
 function sortNum(a,b){
     return a-b;
 }
-
+//This function will take a hand of cards and turn them into numbers
 function getSortedRanks(hand){
     handnums = [];
+    //Loop through the hand and give each one a numerical value from 2 to 14
     for(i = 0; i < hand.length; i++){
         handnums[i] = hand[i][RANK_POS];
         handnums[i] = highAceCardOrderMap[handnums[i]]
     }
+    //use the sort function to sort the list, then return the hand
     handnums.sort(sortNum);
     return handnums;
 }
-
+//This function takes a hand of any length and sees if it is a royal flush
 function check_royal_flush(hand){
+    //check if the hand is a straight flush and contains an ace and king
     if(check_straight_flush(hand)){
         handnums = getSortedRanks(hand);
         if (handnums.includes(13) && handnums.includes(14)){
@@ -312,6 +315,7 @@ function check_royal_flush(hand){
 }
 
 function check_straight_flush(hand) {
+    //if a hand is a flush and a straight return true
     if(check_flush(hand) && check_straight(hand)){
         return true;
     }
@@ -319,6 +323,7 @@ function check_straight_flush(hand) {
 }
 
 function check_flush(hand) {
+    //loop through a hand.  If any of the suits do not match eachother return false, otherwise return true
     startCard = hand[RANK_POS][SUIT_POS];
     for(let i = 1; i < hand.length; i++){
         if(startCard != hand[i][SUIT_POS]){
@@ -328,9 +333,11 @@ function check_flush(hand) {
     return true;
 }
 
+//this function check if a hand is a straight assuming that an ace is high
 function check_high_ace_straight(hand) {
+    //sort the hand
     handnums = getSortedRanks(hand)
-    
+    //if each card in the sorted hand is 1 higher than the other, return true
     for(i = 1; i < handnums.length; i++){
         if(handnums[i-1] +1 != handnums[i]){
             return false;
@@ -339,6 +346,7 @@ function check_high_ace_straight(hand) {
     return true;
 }
 
+//this function check if a hand is a straight assuming that an ace is low
 function check_low_ace_straight(hand) {
     handnums = [];
     for(i = 0; i < hand.length; i++){
@@ -355,12 +363,15 @@ function check_low_ace_straight(hand) {
     return true;
 }
 
+//to find if a hand is a straight, see if it is a straigh with ace high and ace low
 function check_straight(hand){
     return(check_high_ace_straight(hand) || check_low_ace_straight(hand));
 }
 
 function check_quads(hand){
+    //sort the hand
     handnums = getSortedRanks(hand);
+    //if four cards have the same face value, return true
     for(i = 0; i < 2; i++){
         if(handnums[i] == handnums[i+1] && handnums[i] == handnums[i+2] && handnums[i] == handnums[i+3]){
             return true;
@@ -370,10 +381,13 @@ function check_quads(hand){
 }
 
 function check_full_house(hand){
+    // sort the hand
     handnums = getSortedRanks(hand);
+    //check if the last two cards are a pair and the first three are trips
     if(handnums[0] == handnums[1] && handnums[0] == handnums[2] && handnums[3] == handnums[4]){
         return true;
     }
+    //check if the first two cards are a pair and the last three are trips
     if(handnums[0] == handnums[1] && handnums[2] == handnums[3] && handnums[2] == handnums[4]){
         return true;
     }
@@ -381,7 +395,9 @@ function check_full_house(hand){
 }
 
 function check_trips(hand){
+    //sort the hand
     handnums = getSortedRanks(hand);
+    //checks if there are any pairs of three in the hand
     for(i = 0; i < hand.length-2; i++){
         if(handnums[i] == handnums[i+1] && handnums[i] == handnums[i+2]){
             return true;
@@ -391,9 +407,12 @@ function check_trips(hand){
 }
 
 function check_two_pair(hand){
+    //sort the hand
     handnums = getSortedRanks(hand);
+    //find if there are any pairs
     for(i = 0; i < 4; i++){
         if(handnums[i] == handnums[i+1]){
+            //if so, remove the pair and try to find another
             handnums.splice(i, 2);
             for(j = 0; j < 2; j++){
                 if (handnums[j] == handnums[j+1]){
@@ -407,8 +426,10 @@ function check_two_pair(hand){
 }
 
 function check_high_pair(hand){
+    //sort the hand
     handnums = getSortedRanks(hand);
     for(i = 0; i < 4; i++){
+        //if the pair found is higher than a 10 return true
         if(handnums[i] == handnums[i+1] && handnums[i] > 10){
             return true;
         }
@@ -417,7 +438,9 @@ function check_high_pair(hand){
 }
 
 function check_mid_pair(hand){
+    //sort the hand
     handnums = getSortedRanks(hand);
+    //look for pairs.  If the pair found is between 10 and 6 return true
     for(i = 0; i < 4; i++){
         if(handnums[i] == handnums[i+1] && handnums[i] < 11 && handnums[i] > 5){
             return true;
@@ -427,7 +450,9 @@ function check_mid_pair(hand){
 }
 
 function check_pair(hand){
+  //sort the hand
   handnums = getSortedRanks(hand);
+    //if a pair is found return true
     for(i = 0; i < hand.length-1; i++){
         if(handnums[i] == handnums[i+1] && handnums[i] < 15 && handnums[i] > 1){
             return true;
