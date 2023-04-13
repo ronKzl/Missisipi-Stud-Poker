@@ -1,3 +1,12 @@
+/*  
+      Mississippi Stud Poker - MATH 3808 Final Project
+      Alex Davidson & Ron Stuchevsky
+      To use: Open the index.html file in chrome (drag and drop or click open with either work) and play!
+      
+      NOTE: CARD EFFECTS ONLY FUNCTION PROPERLY IN CHROME BROWSER
+*/
+
+
 cardData = [
     {
       "suit": "H",
@@ -261,14 +270,8 @@ cardData = [
     }
   ]
 
-/*
-        NOTE: CARD EFFECTS ONLY FUNCTION PROPERLY IN CHROME BROWSER
-        due to firefox and safari treating divs differently and not allowing overlay.
-*/
-
 //game variables to track user earnings and stats
 let playerMoney = 10000;
-let handsPlayed = 0; //<--- display this?
 let ante = 25;
 let sideBet = 1;
 let thirdBet = 0;
@@ -286,6 +289,8 @@ let amountRevealed = 0;
 let highAceCardOrderMap = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "T":10,"J":11, "Q":12, "K":13, "A":14}
 
 let lowAceCardOrderMap = {"A":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "T":10,"J":11, "Q":12, "K":13}
+
+//backend functions for hand calculations
 
 function sortNum(a,b){
     return a-b;
@@ -517,7 +522,7 @@ function check3card(hand){
   return 0;
 }
 
-
+//select a random card from the json object
 function dealCard(){
     while(true){
         x = Math.floor(Math.random()*52)
@@ -545,13 +550,10 @@ function getPicture(cardPosition){
 
 
 
-//On doucument load events
-
+//On doucument load events and front-end functions
 //disable Play buttons
 disablePlayButtons();
 updateUserBalance();
-
-
 
 //Get the 5 cards on load
 const card = document.getElementById("card");
@@ -560,10 +562,6 @@ const card3 = document.getElementById("card3");
 const card4 = document.getElementById("card4");
 const card5 = document.getElementById("card5");
 
-//Snippet to set a picture so I don't forget
-document.getElementById("thirdStImg").src ="PNG-cards-1.3\\2_of_diamonds.png";
-
-//Current workaround for the first 2 cards not displaying properly without having text below them...
 document.getElementById("b").style.color = "#5f8a6a";
 document.getElementById("a").style.color = "#5f8a6a";
 
@@ -613,17 +611,16 @@ function putBet(betAmount){
     document.getElementById("bet5").textContent = `$${betAmount}`
   }
   //displayCards
-  console.log(thirdBet)
-  console.log(fourthBet)
-  console.log(fifthBet)
   flipCard();
 }
-
-//Draw 5 random cards from the Json & update them on the UI
-function updateCards(){
+//draws 5 random cards from the deck
+function randomizeCards(){
   for(let i =0; i < 5; i++){
     dealCard();
   }  
+}
+//Draw 5 random cards from the Json & update them on the UI
+function updateCards(){  
     console.log(currentCards);
     document.getElementById("firstStImg").src = getPicture(0);
     document.getElementById("secondStImg").src = getPicture(1);
@@ -634,7 +631,6 @@ function updateCards(){
 
 //Sets up the game
 function dealBtn() {
-  
   //Lock In the Ante & 3 card bet of user
   let userAnte = document.getElementById("anteBet").value;
   if(userAnte < 1){
@@ -663,13 +659,24 @@ function dealBtn() {
     flipThirdStreet();
     flipFourthStreet();
     flipFifthStreet();
+    if(document.getElementById("firstCheat").value != ""){
+      selectUserCards();
+    }
+    else{
+      randomizeCards();
+    }
     setTimeout(updateCards,300); //set timeout for there to be time to update the cards
     setTimeout(flipFirstAndSecond,650); //set a timeout to make the clean up look more natural
-    //Draw 5 random cards from the Json
   
   }
   else{ //users first game immideatly reveal the cards
-    //Draw 5 random cards from the Json
+    //if the cheats console is filled use that as the cards to display
+    if(document.getElementById("firstCheat").value != ""){
+        selectUserCards();
+    }
+    else{
+      randomizeCards();
+    }
     updateCards();
     flipFirstAndSecond();
   }
@@ -681,6 +688,15 @@ function dealBtn() {
   amountRevealed = 2;
 }
 
+//used to showcase a particular hand will use the values inputed by the user instead of randomizing the hand
+function selectUserCards(){
+  //push all the 5 specified user values to the card array
+  currentCards.push(document.getElementById("firstCheat").value);
+  currentCards.push(document.getElementById("secondCheat").value);
+  currentCards.push(document.getElementById("thirdCheat").value);
+  currentCards.push(document.getElementById("fourthCheat").value);
+  currentCards.push(document.getElementById("fifthCheat").value);
+}
 
 //flip 1 card a time depending on the amount of cards revealed on the table
 function flipCard(){
@@ -723,7 +739,7 @@ function fold() {
   let fold = true;
   endRound(fold);
 }
-
+//clear the card arrays
 function clearCards(){
   currentCards = [];
   currentCardNum = [];  
@@ -734,11 +750,7 @@ function clearCards(){
 //adjusts player score
 //then cleans up the UI
 function endRound(fold = false){
-  //REMOVE CONSOLE LOG
   hooked = true;
-  console.log(currentCards);
-  console.log(getSortedRanks(currentCards));
-  console.log(findPayout(currentCards));
   //find the user payout
   let payout = findPayout(currentCards);
                                         //only check the community cards
@@ -889,7 +901,7 @@ function endRound(fold = false){
     if(sideBet > 0 && thirdCardBonusPayout > 0){ //placed and won bet just add it to the gains
       let winSideAmount = (sideBet * thirdCardBonusPayout);
       bonusDisplay.textContent = ` $${winSideAmount}`;
-      totalEarning.textContent = `+  $${winSideAmount}`;
+      totalEarning.textContent = `+  $${winSideAmount+winAmount}`;
       playerMoney = playerMoney + winSideAmount + sideBet;
       updateUserBalance();
     }
@@ -909,10 +921,15 @@ function endRound(fold = false){
   document.getElementById("deal").disabled = false;
   clearCards();
   enableBets();
-
+  //clear the current values in the cheats menu 
+  document.getElementById("firstCheat").value = "";
+  document.getElementById("secondCheat").value = "";
+  document.getElementById("thirdCheat").value = "";
+  document.getElementById("fourthCheat").value = "";
+  document.getElementById("fifthCheat").value = "";
 }
 
-//DONE
+
 
 //disables the play buttons to be pressed by user
 function disablePlayButtons() {
@@ -929,38 +946,38 @@ function enablePlayButtons() {
   document.getElementById("fold").disabled = false;
 }
 
-
+//toggle the flip animation of the third street card
 function flipThirdStreet() {
   card3.classList.toggle("flipCard");
 }
-
+//toggle the flip animation of the fourth street card
 function flipFourthStreet() {
   card4.classList.toggle("flipCard");
 }
-
+//toggle the flip animation of the fifth street card
 function flipFifthStreet() {
   card5.classList.toggle("flipCard");
 }
-
+//toggle the flip animation of the first and second street cards
 function flipFirstAndSecond() {
   card.classList.toggle("flipCard");
   card2.classList.toggle("flipCard");
 }
-
+//update the UI user balance 
 function updateUserBalance(){
   document.getElementById("userMoney").innerText = `Your Money: ${playerMoney}$`;
 }
-
+//reset user money back to default
 function resetUserMoney(){
   playerMoney = 10000;
   updateUserBalance();
 }
-
+//re-enable the ante and bonus bet so user can place them
 function enableBets(){
   document.getElementById("anteBet").disabled = false;
   document.getElementById("bonusBet").disabled = false;
 }
-
+//disable the anter and bonus bet so user is not allowed to modify them
 function disableBets(){
   document.getElementById("anteBet").disabled = true;
   document.getElementById("bonusBet").disabled = true;

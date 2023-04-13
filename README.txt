@@ -1,5 +1,5 @@
-Alex Davidson
-101149335
+Alex Davidson  | 101149335
+Ron Stuchevsky | 101188412
 
 Included Files:
 src.js: Source code for the program
@@ -17,3 +17,6 @@ Instructions to run:
   their bet by 1x, 2x or 3x
 - After this the next card is shown and then this process repeats until each card is revealed
 - Once all cards are revealed the player will be rewarded based on their final hand
+- The cheats menu can be used to play a particular hand simply enter the desired card values of each of the 5 cards 
+into the respective fields and click the 'bet' button. Input should be in the form of card rank followed by the suit.
+For example : TH - will be interperted as 10 of hearts, QS - will be interpreted as Queen of Spades and 5D - will be 5 of diamonds.

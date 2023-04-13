@@ -175,10 +175,10 @@ body {
     display: block;
     font-size: 1.5rem;
     border-style: solid;
-    border-color: white;
+    border-color: yellow;
     border-radius: 10cm;
     border-width: 1px 1em;
-    color: white;
+    color: rgb(255, 255, 0);
 }
 
 .front {
@@ -203,28 +203,31 @@ body {
     /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
-.userWin{
+.userWin {
     z-index: 99;
     font-size: 1rem;
-    
+
     position: absolute;
     top: 10%;
     left: 20%;
     margin: -50px 0 0 -50px;
-    background-color: rgba(0,0,0,.5);;
-    
+    background-color: rgba(0, 0, 0, .5);
+    ;
+
     height: 15rem;
     width: 17rem;
     text-align: center;
 }
-input{
+
+input {
     text-align: center;
     width: 25%;
     padding: 3px 5px;
     display: block;
     font-size: 100%;
 }
-form{
+
+form {
     margin-right: 1rem;
 }
 
