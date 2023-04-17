@@ -9,7 +9,7 @@ index.html: This is the HTML visuals used by the program
 README.txt: This readme file
 
 Instructions to run:
-- To launch the program you just need to open the index.html file in Google Chrome
+- To launch the program you just need to open the index.html file in Google Chrome browser (currently animations fully functional only in Chrome)
 - Before the cards are dealt both the 3 card bonus and the ante can be changed to whatever value
   the player wants
 - Pressing the "Deal" button will deal out the first two cards.  The player can then choose to fold or increase
