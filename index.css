@@ -107,11 +107,8 @@ body {
     justify-content: space-between;
 
 }
-
 .bottom {
     display: flex;
-    /* border-style: solid;
-    border-color: aqua; */
 }
 
 #top {
@@ -120,10 +117,7 @@ body {
 
 #game {
     display: flex;
-    /* border-style: solid;
-    border-color: aqua; */
 }
-
 
 .communityCards {
     width: 200%;
@@ -135,7 +129,6 @@ body {
     width: 40%;
     height: 40%;
 }
-
 
 #streetImgs {
     display: flex;
@@ -149,9 +142,6 @@ body {
 }
 
 .card {
-
-    /* width: 150%;
-    height: 100%; */
     text-align: center;
     transform-style: preserve-3d;
     transition: all 0.8s ease;
@@ -200,7 +190,6 @@ body {
 .yellow {
     color: yellow;
     font-size: 105%;
-    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
 .userWin {
@@ -212,8 +201,6 @@ body {
     left: 20%;
     margin: -50px 0 0 -50px;
     background-color: rgba(0, 0, 0, .5);
-    ;
-
     height: 15rem;
     width: 17rem;
     text-align: center;

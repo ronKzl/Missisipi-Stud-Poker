@@ -534,9 +534,6 @@ function dealCard(){
     currentCardNum.push(x);
 }
 
-
-
-
 //return the correct picture corresponding to the card in the array
 function getPicture(cardPosition){
   for(let i = 0; i < 52; i++){
@@ -546,9 +543,6 @@ function getPicture(cardPosition){
     }
   }
 }
-
-
-
 
 //On doucument load events and front-end functions
 //disable Play buttons
@@ -717,8 +711,6 @@ function flipCard(){
     }
     
 }
-
-
 
 //called when the fold button is pressed
 //reveal the rest of the cards that were hidden and call endRound() to display losses and feedback to user
@@ -928,8 +920,6 @@ function endRound(fold = false){
   document.getElementById("fourthCheat").value = "";
   document.getElementById("fifthCheat").value = "";
 }
-
-
 
 //disables the play buttons to be pressed by user
 function disablePlayButtons() {
