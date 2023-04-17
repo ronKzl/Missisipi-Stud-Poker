@@ -4,7 +4,6 @@ Ron Stuchevsky | 101188412
 Included Files:
 src.js: Source code for the program
 PNG-cards-1.3: this folder contains the images for each card
-deck_of_cards.json: This file has data for each card that is used by the program
 index.css: This is the stylesheet for the HTML page
 index.html: This is the HTML visuals used by the program
 README.txt: This readme file
